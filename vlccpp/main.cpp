@@ -18,7 +18,6 @@ int main(int argc, char** argv)
     return NOT_VALID_IMAGE;
   }
 
-
   vlc::CameraInfo* Lumia1020 = new vlc::CameraInfo();
   Lumia1020->Focal = 5620;
   Lumia1020->RollingShutterRate = 1 / 47.54e3;
@@ -38,8 +37,6 @@ int main(int argc, char** argv)
   for (map<double, cv::Point3d>::const_iterator iter = Room->Transmitters.begin(); iter != Room->Transmitters.end(); ++iter) {
     Frequencies.push_back(iter->first);
   }
-
-
 
   vlc::Tools::ShowImage("Origin", image);
   for (map<double, cv::Point3d>::const_iterator iter = Room->Transmitters.begin(); iter != Room->Transmitters.end(); ++iter) {
