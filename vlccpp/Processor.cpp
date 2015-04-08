@@ -3,10 +3,12 @@
 
 namespace vlc {
 
-  void Processor::OpenFFT(cv::Mat ARGBImage,CameraInfo* Camera) {
+  void Processor::OpenFFT(cv::Mat Image,CameraInfo* Camera) {
 
     cv::Mat GrayImage;
-    cv::cvtColor(ARGBImage, GrayImage, CV_RGB2GRAY);
+    cv::cvtColor(Image, GrayImage, CV_RGB2GRAY);
+    vlc::Tools::ShowImage("GrayImage", GrayImage);
+
 
   }
 
