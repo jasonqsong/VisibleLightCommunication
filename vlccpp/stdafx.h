@@ -9,3 +9,4 @@
 #include "RoomInfo.h"
 #include "Processor.h"
 #include "Tools.h"
+#include "Light.h"

@@ -3,7 +3,7 @@
 
 namespace vlc {
 
-  void Processor::OpenFFT(cv::Mat Image, CameraInfo* Camera) {
+  std::vector<vlc::Light>* Processor::OpenFFT(cv::Mat Image, CameraInfo* Camera) {
     //Rotate
     cv::Mat RotateImage;
     if (Image.size[0] < Image.size[1]) {
@@ -62,7 +62,7 @@ namespace vlc {
     double NFFT = 1024;
     double gain = 5;
 
-    std::vector<double> EstimatedFrequencies;
+    std::vector<vlc::Light>* Lights=new std::vector<vlc::Light>();
 
 
     for (unsigned i = 0; i < Contours->size(); ++i) {
@@ -84,12 +84,47 @@ namespace vlc {
       cv::Point MaxLoc;
       cv::minMaxLoc(FFTImage, NULL, NULL, NULL, &MaxLoc);
       double Frequency = (Fs / 2.0) * (1.0*MaxLoc.x / FFTImage.size[1]);
+
+      vlc::Light Light;
+      Light.PositionInImage = (*Centers)[i];
+      Light.Frequency = Frequency;
+      Lights->push_back(Light);
       cv::putText(SliceImage, std::to_string(Frequency), (*Centers)[i], CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(255, 255, 255));
       vlc::Tools::PrintMessage("SliceImage", std::to_string(Frequency));
-      //vlc::Tools::ShowImage("ReduceImage"+std::to_string(i), ReduceImage);
     }
-
     vlc::Tools::ShowImage("SliceImage", SliceImage);
+    return Lights;
+  }
+
+  void Processor::PairLights(std::vector<Light>* Lights, RoomInfo * Room)
+  {
+    char cstr[MAX_PATH];
+    unsigned n = Lights->size();
+    vlc::Light* LightsArray = new vlc::Light[n];
+    for (int i = 0; i < n; ++i)
+      LightsArray[i] = (*Lights)[i];
+    vlc::Light tmpLight;
+    for (int i = 0; i < n; ++i) {
+      for (int j = i+1; j < n; ++j) {
+        if (LightsArray[i].Frequency > LightsArray[j].Frequency) {
+          tmpLight = LightsArray[i];
+          LightsArray[i] = LightsArray[j];
+          LightsArray[j] = tmpLight;
+        }
+      }
+    }
+    n = MIN(n , Room->Transmitters.size());
+    Lights->clear();
+    for (int i = 0; i < n; i++) {
+      LightsArray[i].PositionInRoom = Room->Transmitters[i];
+      Lights->push_back(LightsArray[i]);
+      sprintf(cstr, "%0.1lf (%0.1lf,%0.1lf) -> (%0.1lf,%0.1lf,%0.1lf)", LightsArray[i].Frequency, LightsArray[i].PositionInImage.x, LightsArray[i].PositionInImage.y, LightsArray[i].PositionInRoom.x, LightsArray[i].PositionInRoom.y, LightsArray[i].PositionInRoom.z);
+      vlc::Tools::PrintMessage("Pair", cstr);
+    }
+  }
+
+  void Processor::AOA(std::vector<vlc::Light>* Lights, CameraInfo * Camera)
+  {
 
   }
 

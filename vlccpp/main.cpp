@@ -43,7 +43,10 @@ int main(int argc, char** argv)
     snprintf(cstr, MAX_PATH, "%0.1lf (%0.1lf,%0.1lf,%0.1lf)", iter->first, iter->second.x, iter->second.y, iter->second.z);
     vlc::Tools::PrintMessage("Origin", cstr);
   }
-  vlc::Processor::OpenFFT(image, Camera);
+  std::vector<vlc::Light>* Lights;
+  Lights= vlc::Processor::OpenFFT(image, Camera);
+  vlc::Processor::PairLights(Lights, Room);
+
 
   cv::waitKey(0); // Wait for a keystroke in the window
   return 0;

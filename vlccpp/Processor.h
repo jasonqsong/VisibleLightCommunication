@@ -4,7 +4,9 @@ namespace vlc {
   class Processor
   {
   public:
-    static void OpenFFT(cv::Mat image, CameraInfo* camera);
+    static std::vector<vlc::Light>* OpenFFT(cv::Mat image, CameraInfo* camera);
+    static void PairLights(std::vector<vlc::Light>* Lights, RoomInfo* Room);
+    static void AOA(std::vector<vlc::Light>* Lights, CameraInfo* Camera);
     Processor();
     virtual ~Processor();
   };

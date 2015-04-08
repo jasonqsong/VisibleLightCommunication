@@ -42,9 +42,9 @@ namespace vlc {
       Windows[WindowName] = WindowsNum++;
     cv::Mat ImageForDisplay;
     if (Images.find(WindowName) == Images.end()) {
-      Images[WindowName]=cv::Mat(800, 800, CV_8UC1, cv::Scalar(0, 0, 0));
+      Images[WindowName]=cv::Mat(300, 300, CV_8UC1, cv::Scalar(0, 0, 0));
     }
-    cv::resize(Images[WindowName], ImageForDisplay, cv::Size(800, 800));
+    cv::resize(Images[WindowName], ImageForDisplay, cv::Size(300, 300));
 
     if (Messages.find(WindowName) != Messages.end()) {
       for (int i = 0;i< Messages[WindowName].size(); ++i) {
