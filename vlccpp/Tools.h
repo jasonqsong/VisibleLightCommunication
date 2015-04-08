@@ -10,6 +10,7 @@ namespace vlc {
     static int WindowsNum;
     static void PrintMessage(std::string WindowName, std::string Message);
     static void ShowImage(std::string WindowName, cv::Mat Image);
+    static void Plot(std::string WindowName, cv::Mat Data,cv::Scalar Color);
     static void RefreshWindow(std::string WindowName);
     Tools();
     virtual ~Tools();
