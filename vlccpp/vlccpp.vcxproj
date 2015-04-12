@@ -12,20 +12,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CameraInfo.cpp" />
-    <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Processor.cpp" />
     <ClCompile Include="RoomInfo.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Tools.cpp" />
+    <ClCompile Include="Transmitter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraInfo.h" />
-    <ClInclude Include="Light.h" />
     <ClInclude Include="Processor.h" />
     <ClInclude Include="RoomInfo.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Tools.h" />
+    <ClInclude Include="Transmitter.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{686DF09E-79C6-465A-88A6-8328EE810435}</ProjectGuid>

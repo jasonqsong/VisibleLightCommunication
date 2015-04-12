@@ -5,6 +5,9 @@
 *.suo
 *.user
 *.sln.docstates
+*.jpg
+*.png
+*.pptx
 
 # Build results
 [Dd]ebug/

@@ -7,6 +7,7 @@
 #include <map>
 #include "CameraInfo.h"
 #include "RoomInfo.h"
+#include "Transmitter.h"
 #include "Processor.h"
 #include "Tools.h"
-#include "Light.h"
+
