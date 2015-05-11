@@ -67,9 +67,9 @@ void initCode(){
       code[i][j]=0;
     }
     code[i][0]=0xff;
-    code[i][1]=0x01;
+    code[i][1]=0xf0;
   }
-  code[0][2]=1;
+  code[0][2]=0xcc;
   code[1][2]=2;
   code[2][2]=3;
   code[3][2]=4;
@@ -96,7 +96,7 @@ void setupTimer(){
   REG_TC0_CCR0=TC_CCR_CLKEN|TC_CCR_SWTRG; //REG_TC0_CCR0=0b101; // start counter
   REG_TC0_CMR0=TC_CMR_TCCLKS_TIMER_CLOCK1|TC_CMR_EEVT_XC0|TC_CMR_WAVSEL_UP_RC|TC_CMR_WAVE|TC_CMR_ACPA_SET|TC_CMR_ACPC_CLEAR; //REG_TC0_CMR0=0b0000,0000,0000,1001,1100,0100,0000,0000; // set channel mode register (see datasheet)
 
-  REG_TC0_RC0=10000000; // counter period
+  REG_TC0_RC0=20000; // counter period
   
   REG_TC0_IER0=TC_IER_CPCS; // REG_TC0_IER0=0b00010000; // enable interrupt on counter=rc
   REG_TC0_IDR0=~TC_IDR_CPCS; // REG_TC0_IDR0=0b11101111; // disable other interrupts
