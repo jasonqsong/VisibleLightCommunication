@@ -71,7 +71,10 @@ namespace vlc {
       int Right = MIN((int)(GrayImage.size[1])-1, (int)((*Centers)[i].x + (*Radiuses)[i]));
       int Bottom = MIN((int)(GrayImage.size[0])-1, (int)((*Centers)[i].y + (*Radiuses)[i]));
       cv::rectangle(SliceImage, cv::Rect(Left, Top, Right - Left, Bottom - Top), cv::Scalar(255, 255, 255), 5);
-      cv::Mat SubImage=GrayImage(cv::Rect(Left, Top, Right - Left, Bottom - Top)).clone();
+      //cv::Mat SubImage=GrayImage(cv::Rect(Left, Top, Right - Left, Bottom - Top)).clone();
+	  cv::Mat SubImage = RotateImage(cv::Rect(Left, Top, Right - Left, Bottom - Top)).clone();
+	  cv::Mat HsvImage = SubImage.clone();
+	  cv::cvtColor(SubImage, HsvImage, CV_BGR2HSV);
       //vlc::Tools::ShowImage("SubImage"+std::to_string(i), SubImage);
       cv::Mat ReduceImage;
       cv::reduce(SubImage, ReduceImage, 0, CV_REDUCE_SUM,CV_32FC1);
