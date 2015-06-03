@@ -5,11 +5,15 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
+  printf("Hello world");
+  system("pause");
+
+  return 0;
   char cstr[MAX_PATH];
 
   GetCurrentDirectoryA(MAX_PATH, cstr);
   string CurrentDirectory = cstr;
-  string ImageFilename = CurrentDirectory + "\\images\\09.jpg";
+  string ImageFilename = CurrentDirectory + "..\\images\\20150402\\09.jpg";
   cv::Mat image;
   image = cv::imread(ImageFilename, cv::IMREAD_COLOR); // Read the file
 
@@ -40,7 +44,7 @@ int main(int argc, char** argv)
 
   vlc::Tools::ShowImage("Origin", image);
   for (map<double, cv::Point3d>::const_iterator iter = Room->Transmitters.begin(); iter != Room->Transmitters.end(); ++iter) {
-    snprintf(cstr, MAX_PATH, "%0.1lf (%0.1lf,%0.1lf,%0.1lf)", iter->first, iter->second.x, iter->second.y, iter->second.z);
+    sprintf(cstr, "%0.1lf (%0.1lf,%0.1lf,%0.1lf)", iter->first, iter->second.x, iter->second.y, iter->second.z);
     vlc::Tools::PrintMessage("Origin", cstr);
   }
   vlc::Transmitter t;

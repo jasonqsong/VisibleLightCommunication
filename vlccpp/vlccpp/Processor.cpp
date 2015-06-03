@@ -65,17 +65,18 @@ namespace vlc {
     std::vector<vlc::Transmitter>* Lights=new std::vector<vlc::Transmitter>();
 
 
-    for (unsigned i = 0; i < Contours->size(); ++i) {
+    // for (unsigned i = 0; i < Contours->size(); ++i) {
+    for (unsigned i = 0; i < 1; ++i) {
       int Left = MAX(0, (int)((*Centers)[i].x - (*Radiuses)[i]));
       int Top = MAX(0, (int)((*Centers)[i].y - (*Radiuses)[i]));
       int Right = MIN((int)(GrayImage.size[1])-1, (int)((*Centers)[i].x + (*Radiuses)[i]));
       int Bottom = MIN((int)(GrayImage.size[0])-1, (int)((*Centers)[i].y + (*Radiuses)[i]));
       cv::rectangle(SliceImage, cv::Rect(Left, Top, Right - Left, Bottom - Top), cv::Scalar(255, 255, 255), 5);
       //cv::Mat SubImage=GrayImage(cv::Rect(Left, Top, Right - Left, Bottom - Top)).clone();
-	  cv::Mat SubImage = RotateImage(cv::Rect(Left, Top, Right - Left, Bottom - Top)).clone();
-	  cv::Mat HsvImage = SubImage.clone();
-	  cv::cvtColor(SubImage, HsvImage, CV_BGR2HSV);
-      //vlc::Tools::ShowImage("SubImage"+std::to_string(i), SubImage);
+      cv::Mat SubImage = RotateImage(cv::Rect(Left, Top, Right - Left, Bottom - Top)).clone();
+      cv::Mat HsvImage = SubImage.clone();
+      cv::cvtColor(SubImage, HsvImage, CV_BGR2HSV);
+      vlc::Tools::ShowImage("SubImage"+std::to_string(i), SubImage);
       cv::Mat ReduceImage;
       cv::reduce(SubImage, ReduceImage, 0, CV_REDUCE_SUM,CV_32FC1);
       double ReduceImageMean = cv::mean(ReduceImage).val[0];
@@ -104,11 +105,11 @@ namespace vlc {
     char cstr[MAX_PATH];
     unsigned n = Lights->size();
     vlc::Transmitter* LightsArray = new vlc::Transmitter[n];
-    for (int i = 0; i < n; ++i)
+    for (unsigned i = 0; i < n; ++i)
       LightsArray[i] = (*Lights)[i];
     vlc::Transmitter tmpLight;
-    for (int i = 0; i < n; ++i) {
-      for (int j = i+1; j < n; ++j) {
+    for (unsigned i = 0; i < n; ++i) {
+      for (unsigned j = i+1; j < n; ++j) {
         if (LightsArray[i].Frequency > LightsArray[j].Frequency) {
           tmpLight = LightsArray[i];
           LightsArray[i] = LightsArray[j];
@@ -118,7 +119,7 @@ namespace vlc {
     }
     n = MIN(n , Room->Transmitters.size());
     Lights->clear();
-    for (int i = 0; i < n; i++) {
+    for (unsigned i = 0; i < n; i++) {
       double Frequencies[] = { 2000,2500,3000,3500,4000 };
       LightsArray[i].PositionInRoom = (Room->Transmitters[Frequencies[i]]);
       Lights->push_back(LightsArray[i]);
