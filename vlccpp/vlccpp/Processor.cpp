@@ -156,7 +156,7 @@ namespace vlc {
 
       }
       cv::Mat BGRVectorImage;
-      BGRVectorImage.create(4, SubImage.cols, CV_8UC3);
+      BGRVectorImage.create(400, SubImage.cols, CV_8UC3);
       cv::Mat EmptyChannel;
       EmptyChannel.create(1, SubImage.cols, CV_8UC1);
       EmptyChannel.setTo(cv::Scalar(0));
@@ -164,12 +164,16 @@ namespace vlc {
       cv::Mat BGRVectors[3];
       cv::split(BGRVector, BGRVectors);
       cv::merge(std::vector<cv::Mat>({ EmptyChannel,EmptyChannel, BGRVectors[2] }), BGRVectorRow);
+      BGRVectorRow= cv::repeat(BGRVectorRow, 100, 1);
       BGRVectorRow.copyTo(BGRVectorImage(cv::Rect(0, 0, BGRVectorRow.cols, BGRVectorRow.rows)));
       cv::merge(std::vector<cv::Mat>({ EmptyChannel, BGRVectors[1],EmptyChannel }), BGRVectorRow);
-      BGRVectorRow.copyTo(BGRVectorImage(cv::Rect(0, 1, BGRVectorRow.cols, BGRVectorRow.rows)));
+      BGRVectorRow= cv::repeat(BGRVectorRow, 100, 1);
+      BGRVectorRow.copyTo(BGRVectorImage(cv::Rect(0, 100, BGRVectorRow.cols, BGRVectorRow.rows)));
       cv::merge(std::vector<cv::Mat>({ BGRVectors[0],EmptyChannel,EmptyChannel }), BGRVectorRow);
-      BGRVectorRow.copyTo(BGRVectorImage(cv::Rect(0, 2, BGRVectorRow.cols, BGRVectorRow.rows)));
-      BGRVector.copyTo(BGRVectorImage(cv::Rect(0, 3, BGRVectorRow.cols, BGRVectorRow.rows)));
+      BGRVectorRow= cv::repeat(BGRVectorRow, 100, 1);
+      BGRVectorRow.copyTo(BGRVectorImage(cv::Rect(0, 200, BGRVectorRow.cols, BGRVectorRow.rows)));
+      BGRVectorRow= cv::repeat(BGRVector, 100, 1);
+      BGRVectorRow.copyTo(BGRVectorImage(cv::Rect(0, 300, BGRVectorRow.cols, BGRVectorRow.rows)));
       vlc::Tools::ShowImage("BGRVectorImage" + std::to_string(i), BGRVectorImage);
       int RedRise = 0, RedFall = 0;
       uchar RedPrevVal = 0, RedNowVal = 0;
@@ -244,28 +248,16 @@ namespace vlc {
   void Processor::PairLights(std::vector<vlc::Transmitter>* Lights, RoomInfo * Room)
   {
     char cstr[MAX_PATH];
-    unsigned n = Lights->size();
-    vlc::Transmitter* LightsArray = new vlc::Transmitter[n];
-    for (unsigned i = 0; i < n; ++i)
-      LightsArray[i] = (*Lights)[i];
-    vlc::Transmitter tmpLight;
-    for (unsigned i = 0; i < n; ++i) {
-      for (unsigned j = i + 1; j < n; ++j) {
-        if (LightsArray[i].Frequency > LightsArray[j].Frequency) {
-          tmpLight = LightsArray[i];
-          LightsArray[i] = LightsArray[j];
-          LightsArray[j] = tmpLight;
-        }
+    for (std::vector<vlc::Transmitter>::iterator iter = Lights->begin();iter != Lights->end();) {
+      if (Room->Transmitters.find(iter->ID) == Room->Transmitters.end()) {
+        iter=Lights->erase(iter);
       }
-    }
-    n = MIN(n, Room->Transmitters.size());
-    Lights->clear();
-    for (unsigned i = 0; i < n; i++) {
-      double Frequencies[] = { 2000,2500,3000,3500,4000 };
-      LightsArray[i].PositionInRoom = (Room->Transmitters[Frequencies[i]]);
-      Lights->push_back(LightsArray[i]);
-      sprintf(cstr, "%0.1lf (%0.1lf,%0.1lf) -> (%0.1lf,%0.1lf,%0.1lf)", LightsArray[i].Frequency, LightsArray[i].PositionInImage.x, LightsArray[i].PositionInImage.y, LightsArray[i].PositionInRoom.x, LightsArray[i].PositionInRoom.y, LightsArray[i].PositionInRoom.z);
+      else {
+        iter->PositionInRoom = (Room->Transmitters[iter->ID]);
+      sprintf(cstr, "%d (%0.1lf,%0.1lf) -> (%0.1lf,%0.1lf,%0.1lf)", iter->ID, iter->PositionInImage.x, iter->PositionInImage.y, iter->PositionInRoom.x, iter->PositionInRoom.y, iter->PositionInRoom.z);
       vlc::Tools::PrintMessage("Pair", cstr);
+        iter++;
+      }
     }
   }
 

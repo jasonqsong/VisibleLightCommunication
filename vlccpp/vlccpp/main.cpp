@@ -26,27 +26,27 @@ int main(int argc, char** argv)
   vlc::CameraInfo* Camera = Lumia1020;
 
   vlc::RoomInfo* SJTULab = new vlc::RoomInfo();
-  SJTULab->Transmitters[2000] = cv::Point3d(-5, 5, 0);
-  SJTULab->Transmitters[2500] = cv::Point3d(5, 5, 0);
-  SJTULab->Transmitters[3000] = cv::Point3d(5, -5, 0);
-  SJTULab->Transmitters[3500] = cv::Point3d(-5, 5, 0);
-  SJTULab->Transmitters[4000] = cv::Point3d(0, 0, 0);
+  SJTULab->Transmitters[1] = cv::Point3d(-0.5, 0, 0);
+  SJTULab->Transmitters[2] = cv::Point3d(0, 0.5, 0);
+  SJTULab->Transmitters[3] = cv::Point3d(0, 0, 0);
+  SJTULab->Transmitters[4] = cv::Point3d(0.5, 0, 0);
+  SJTULab->Transmitters[5] = cv::Point3d(0, -0.5, 0);
 
   vlc::RoomInfo* Room = SJTULab;
 
   vector<double> Frequencies;
-  for (map<double, cv::Point3d>::const_iterator iter = Room->Transmitters.begin(); iter != Room->Transmitters.end(); ++iter) {
+  for (map<unsigned, cv::Point3d>::const_iterator iter = Room->Transmitters.begin(); iter != Room->Transmitters.end(); ++iter) {
     Frequencies.push_back(iter->first);
   }
 
   vlc::Tools::ShowImage("Origin", image);
-  for (map<double, cv::Point3d>::const_iterator iter = Room->Transmitters.begin(); iter != Room->Transmitters.end(); ++iter) {
-    sprintf(cstr, "%0.1lf (%0.1lf,%0.1lf,%0.1lf)", iter->first, iter->second.x, iter->second.y, iter->second.z);
-    //vlc::Tools::PrintMessage("Origin", cstr);
+  for (map<unsigned, cv::Point3d>::const_iterator iter = Room->Transmitters.begin(); iter != Room->Transmitters.end(); ++iter) {
+    sprintf(cstr, "%d (%0.1lf,%0.1lf,%0.1lf)", iter->first, iter->second.x, iter->second.y, iter->second.z);
+    vlc::Tools::PrintMessage("Origin", cstr);
   }
   vlc::Transmitter t;
   std::vector<vlc::Transmitter>* Lights;
-  Lights= vlc::Processor::OpenFFT(image, Camera);
+  Lights = vlc::Processor::OpenFFT(image, Camera);
   vlc::Processor::PairLights(Lights, Room);
 
 

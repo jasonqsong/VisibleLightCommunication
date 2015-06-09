@@ -6,7 +6,7 @@ namespace vlc {
   {
   public:
 
-    std::map<double, cv::Point3d> Transmitters;
+    std::map<unsigned int, cv::Point3d> Transmitters;
     RoomInfo();
     virtual ~RoomInfo();
   };
