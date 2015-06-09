@@ -12,6 +12,8 @@ namespace vlc {
     static void ShowImage(std::string WindowName, cv::Mat Image);
     static void Plot(std::string WindowName, cv::Mat Data,cv::Scalar Color);
     static void RefreshWindow(std::string WindowName);
+    static void ReduceRowByMost(cv::InputArray _src, cv::OutputArray _dst, cv::InputArray _mask);
+    static unsigned int ConvertFromBinToDec(std::string BinStr);
     Tools();
     virtual ~Tools();
   };

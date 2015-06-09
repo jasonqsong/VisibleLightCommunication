@@ -8,6 +8,7 @@ namespace vlc {
     cv::Point2d PositionInImage;
     cv::Point3d PositionInRoom;
     double Frequency;
+    unsigned int ID;
     Transmitter();
     virtual ~Transmitter();
   };

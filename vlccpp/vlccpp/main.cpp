@@ -5,20 +5,17 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-  printf("Hello world");
-  system("pause");
-
-  return 0;
   char cstr[MAX_PATH];
 
   GetCurrentDirectoryA(MAX_PATH, cstr);
   string CurrentDirectory = cstr;
-  string ImageFilename = CurrentDirectory + "..\\images\\20150402\\09.jpg";
+  string ImageFilename = CurrentDirectory + "\\..\\..\\images\\20150604\\4.jpg";
   cv::Mat image;
   image = cv::imread(ImageFilename, cv::IMREAD_COLOR); // Read the file
 
   if (!image.data) // Check for invalid input
   {
+    printf(ImageFilename.c_str());
     return NOT_VALID_IMAGE;
   }
 
@@ -45,7 +42,7 @@ int main(int argc, char** argv)
   vlc::Tools::ShowImage("Origin", image);
   for (map<double, cv::Point3d>::const_iterator iter = Room->Transmitters.begin(); iter != Room->Transmitters.end(); ++iter) {
     sprintf(cstr, "%0.1lf (%0.1lf,%0.1lf,%0.1lf)", iter->first, iter->second.x, iter->second.y, iter->second.z);
-    vlc::Tools::PrintMessage("Origin", cstr);
+    //vlc::Tools::PrintMessage("Origin", cstr);
   }
   vlc::Transmitter t;
   std::vector<vlc::Transmitter>* Lights;
