@@ -110,7 +110,7 @@ namespace vlc {
 
       }
 
-      if (false) {
+      if (true) {
         cv::Mat HlsImage;
         cv::cvtColor(SubMaskedImage, HlsImage, CV_BGR2HLS);
         cv::Mat HLS[3];
